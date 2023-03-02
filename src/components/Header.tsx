@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react';
 
-function Header() {
-    return (<div>
-        <a href='#'>Home</a>
-        <a href='#'>News Feed</a>
-        <a href='#'>Messages</a>
-    </div>);
+export const Header = () => {
+    return (
+        <header className={'header'}>
+            <img
+                src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/business-logo-design-template-78655edda18bc1196ab28760f1535baa_screen.jpg?ts=1617645324"
+                alt=""/>
+        </header>
+    )
 }
 
-export default Header
