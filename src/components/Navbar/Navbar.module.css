@@ -1,6 +1,7 @@
 .nav {
     grid-area: n;
     background-color: burlywood;
+    padding: 15px;
 
 }
 
@@ -9,6 +10,10 @@
     color: white;
 }
 
-.item {
-    color: pink;
+.item a.active {
+    color: gold;
+}
+
+.item a:hover {
+    color: #beb040;
 }
