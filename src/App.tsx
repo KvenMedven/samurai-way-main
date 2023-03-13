@@ -6,15 +6,16 @@ import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
-import {StateType} from "./redux/state";
+import {StateType, updateNewPostText} from "./redux/state";
 
 type AppPropsType = {
     state: StateType
+    addPost:()=>void
+    updateNewPostText:(letter:string)=>void
 }
 
 function App(props: AppPropsType) {
     return (
-        <BrowserRouter>
             <div className={'app-wrapper'}>
                 <Header/>
                 <Navbar/>
@@ -23,11 +24,14 @@ function App(props: AppPropsType) {
                         state={props.state}
                     />}/>
                     <Route path={'/profile'} render={() => <Profile
-                        state={props.state}/>}/>
+                        profilePage={props.state.profilePage}
+                        addPost={props.addPost}
+                        updateNewPostText={props.updateNewPostText}
+                    />}/>
                 </div>
                 {/*<Profile/>*/}
             </div>
-        </BrowserRouter>
+
     );
 }
 
