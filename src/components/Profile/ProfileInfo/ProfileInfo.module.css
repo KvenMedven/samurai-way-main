@@ -1,3 +1,11 @@
 .descriptionBblock {
     padding: 10px;
 }
+
+.divImg {
+
+}
+
+.divImg img {
+   max-width: 50vw;
+}

@@ -27,14 +27,10 @@ function App(props: AppPropsType) {
                     <Route path={'/profile'} render={() => <Profile
                         profilePage={state.profilePage}
                         dispatch={props.dispatch}
-
                     />}/>
                 </div>
                 {/*<Profile/>*/}
             </div>
-
     );
 }
-
-
 export default App;

@@ -8,8 +8,8 @@ type ProfileInfoPropsType = {
 export const ProfileInfo = (props:ProfileInfoPropsType) => {
     return (
         <div className={s.content}>
-            <div>
-                <img src="https://www.uu.se/digitalAssets/805/c_805646-l_1-k_image.jpg" alt=""/>
+            <div className={s.divImg}>
+                <img src="https://bipbap.ru/wp-content/uploads/2017/04/0_7c779_5df17311_orig.jpg" alt="Картинка не найдена"/>
             </div>
             <div className={s.descriptionBblock}>
                 ava + description

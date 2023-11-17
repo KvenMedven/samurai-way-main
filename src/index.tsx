@@ -5,10 +5,6 @@ import './index.css';
 import App from "./App";
 import {BrowserRouter} from "react-router-dom";
 
-
-
-
-
 export let rerenderEntireTree = (state:StateType) => {
     ReactDOM.render(
         <BrowserRouter>
@@ -20,10 +16,10 @@ export let rerenderEntireTree = (state:StateType) => {
     );
 }
 
-
-
-
 rerenderEntireTree(store.getState())
 
 
 store.subscribe(rerenderEntireTree)
+
+// @ts-ignore
+window.store = store
