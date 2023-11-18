@@ -27,7 +27,7 @@ export type DialogsPageType = {
 export type StateType = {
     profilePage: ProfilePageType,
     dialogsPage: DialogsPageType
-    sidebar:{}
+
 }
 export type StoreType = {
     _state: StateType
@@ -49,9 +49,6 @@ export type StoreType = {
 
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY'
 const SEND_MESSAGE = 'SEND_MESSAGE'
-
-
-
 
 
 export type ActionsTypes =
@@ -92,7 +89,7 @@ export const store: StoreType = {
             newMessageBody: "",
 
         },
-        sidebar:{}
+
     },
     _callSubscriber() {
         console.log("State changed")
@@ -106,9 +103,9 @@ export const store: StoreType = {
     },
 
     dispatch(action) {
-       this._state.profilePage =  profileReducer(this._state.profilePage,action)
-       this._state.dialogsPage = dialogsReducer(this._state.dialogsPage,action)
-       this._state.sidebar =  profileReducer(this._state.sidebar,action)
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        // this._state.sidebar = profileReducer(this._state.sidebar, action)
         this._callSubscriber(this._state)
     },
 }

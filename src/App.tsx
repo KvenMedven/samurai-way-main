@@ -6,15 +6,16 @@ import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
-import {ActionsTypes, StateType, StoreType} from "./redux/state";
+import {ActionsTypes, StateType, StoreType} from "./redux/store";
 
 type AppPropsType = {
-    state: StateType
+    state: any
     dispatch:(action:ActionsTypes)=>void
-    store:StoreType
+    store:any
 }
 
 function App(props: AppPropsType) {
+    debugger
     const state = props.state
     return (
             <div className={'app-wrapper'}>
@@ -29,7 +30,6 @@ function App(props: AppPropsType) {
                         dispatch={props.dispatch}
                     />}/>
                 </div>
-                {/*<Profile/>*/}
             </div>
     );
 }
