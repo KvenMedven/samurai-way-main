@@ -8,7 +8,7 @@ import {
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
 
 
-type MyPostsPropsType = {
+ type MyPostsPropsType = {
     posts: Array<PostType>
     newPostText: string
     updateNewPostText:(text:string)=>void

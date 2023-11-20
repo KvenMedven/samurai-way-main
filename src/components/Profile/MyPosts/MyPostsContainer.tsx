@@ -6,8 +6,9 @@ import {
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
 import {MyPosts} from "./MyPosts";
 import {StoreContext} from "../../../StoreContext";
-import {connect} from "react-redux";
+import {connect, DispatchProp} from "react-redux";
 import {AppRootStateType} from "../../../redux/redux-store";
+import {Dispatch} from "redux";
 
 
 type MyPostsContainerPropsType = {
@@ -44,14 +45,27 @@ type MyPostsContainerPropsType = {
 //         </StoreContext.Consumer>
 //     )
 // }
+type MapStatePropsType = {
+    posts: Array<PostType>
+    newPostText: string
 
-let mapStateToProps = (state:AppRootStateType)=>{
+}
+type MapDispatchPropsType = {
+    updateNewPostText:(text:string)=>void
+    addPost:()=>void
+
+}
+
+
+
+
+let mapStateToProps = (state:AppRootStateType):MapStatePropsType=>{
     return{
         posts:state.profilePage.posts,
         newPostText:state.profilePage.newPostText
     }
 }
-let mapDispatchToProps = (dispatch:any)=>{
+let mapDispatchToProps = (dispatch:Dispatch):MapDispatchPropsType=>{
     return{
         updateNewPostText:(text:string)=>{
             dispatch(updateNewPostTextActionCreator(text))
