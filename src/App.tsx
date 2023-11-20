@@ -15,7 +15,7 @@ type AppPropsType = {
 }
 
 function App(props: AppPropsType) {
-    debugger
+
     const state = props.state
     return (
         <div className={'app-wrapper'}>
@@ -26,7 +26,7 @@ function App(props: AppPropsType) {
                 {/*    state={state} store={props.store}*/}
                 {/*/>}/>*/}
                 <Route path={'/dialogs'} render={() => <DialogsContainer
-                    state={state} store={props.store}
+
                 />}/>
                 <Route path={'/profile'} render={() => <Profile
                     store={props.store}

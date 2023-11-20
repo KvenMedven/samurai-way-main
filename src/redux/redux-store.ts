@@ -15,3 +15,11 @@ const rootReducer = combineReducers(
 )
 
 export let store = createStore(rootReducer)
+
+
+export type StoreType = typeof store
+
+export type AppRootStateType = ReturnType<typeof rootReducer>
+
+
+console.log(rootReducer)
