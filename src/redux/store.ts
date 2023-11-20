@@ -29,7 +29,7 @@ export type StateType = {
     dialogsPage: DialogsPageType
 
 }
-export type StoreType = {
+ type StoreType = {
     _state: StateType
     _callSubscriber: (state: StateType) => void
     getState: () => StateType

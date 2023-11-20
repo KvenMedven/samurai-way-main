@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import s from "./Dialogs.module.css"
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsPageType, StateType, StoreType} from "../../redux/store";
+import {DialogsPageType} from "../../redux/store";
 import {sendMessageActionCreator, updateNewMessageBodyActionCreator} from "../../redux/dialogs-reducer";
 
 
@@ -15,12 +15,11 @@ type DialogsPropsType = {
     dialogsPage: DialogsPageType
     sendMessage:()=>void
     updateNewMessageBody:(body:string)=>void
-    store?:StoreType
 }
 
 
 export const Dialogs = (props: DialogsPropsType) => {
-    console.log(props)
+
     let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
     let messageElements = props.dialogsPage.messages.map( m => <Message message={m.message}/>)
     let newMessageBody = props.dialogsPage.newMessageBody
@@ -28,6 +27,7 @@ export const Dialogs = (props: DialogsPropsType) => {
         props.sendMessage()
     }
     let onNewMessageChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
+
         let body = e.currentTarget.value
       props.updateNewMessageBody(body)
     }

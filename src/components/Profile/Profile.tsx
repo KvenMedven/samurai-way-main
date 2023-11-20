@@ -17,7 +17,7 @@ export const Profile = (props:ProfilePropsType) => {
             {/*         newPostText={props.profilePage.newPostText}*/}
             {/*         dispatch={props.dispatch}*/}
             {/*/>*/}
-            <MyPostsContainer store={props.store}   />
+            <MyPostsContainer />
         </div>
     )
 }

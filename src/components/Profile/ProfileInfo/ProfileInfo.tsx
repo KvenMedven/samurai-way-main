@@ -1,11 +1,8 @@
 import React from 'react';
 import s from './ProfileInfo.module.css';
 
-type ProfileInfoPropsType = {
 
-}
-
-export const ProfileInfo = (props:ProfileInfoPropsType) => {
+export const ProfileInfo = () => {
     return (
         <div className={s.content}>
             <div className={s.divImg}>
