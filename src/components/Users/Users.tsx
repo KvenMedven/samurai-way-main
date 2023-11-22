@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
-import {UsersStateType, UserType} from "../../redux/users-reducer";
+import { UserType} from "../../redux/users-reducer";
 import styles from './users.module.css'
+import axios, {AxiosResponse} from "axios";
+import userPhoto from '../../assets/images/i.webp'
 
 type UsersPropsType = {
     users: Array<UserType>
@@ -9,6 +11,21 @@ type UsersPropsType = {
     setUsers: (users: Array<UserType>) => void
 }
 
+type UserServerType = {
+    id:number
+    name:string
+    status:string
+    photos:{
+        small:string
+        large:string
+    }
+    followed:boolean
+}
+type ResponseType = {
+    items:Array<UserServerType>
+    error:string
+    totalCount:number
+}
 
 export const Users = (props: UsersPropsType) => {
     const stateFromServer = [
@@ -36,13 +53,26 @@ export const Users = (props: UsersPropsType) => {
             status: 'Boss3',
             location: {city: 'Kiev', country: 'Ukraine'}
         }]
+    let instance = axios.create({
+        withCredentials: true,
+        baseURL: 'https://social-network.samuraijs.com/api/1.0'
+    })
 
     useEffect(() => {
-        alert('useEffect')
-        props.setUsers(stateFromServer)
-    }, [])
+        instance.get<ResponseType>('/users')
+            .then(res => {
+                console.log(res.data.items)
+                props.setUsers(res.data.items)
 
-    // if (props.users.length===0)  props.setUsers(stateFromServer)
+            })
+
+    }, [])
+    //
+    // if (props.users.length === 0) {
+    //     // props.setUsers(stateFromServer)
+    // }
+
+
     return (
         <div>
             {/*{props.users.map(user=>{*/}
@@ -62,7 +92,7 @@ export const Users = (props: UsersPropsType) => {
                     <div key={user.id}>
                         <span>
                             <div>
-                                <img className={styles.userPhoto} src={user.photoUrl}/>
+                                <img className={styles.userPhoto} src={user.photos.large || userPhoto}/>
                             </div>
                             <div>
                                 {user.followed ?
@@ -72,12 +102,12 @@ export const Users = (props: UsersPropsType) => {
                         </span>
                         <span>
                             <span>
-                                <div>{user.fullName}</div>
+                                <div>{user.name}</div>
                                 <div>{user.status}</div>
                             </span>
                             <span>
-                                <div>{user.location.country}</div>
-                                <div>{user.location.city}</div>
+                                <div>{"user.location.country"}</div>
+                                <div>{"user.location.city"}</div>
                             </span>
                         </span>
                     </div>

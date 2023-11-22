@@ -7,15 +7,14 @@ const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET_USERS'
 
 export type UserType = {
-    id: number
-    photoUrl:string
-    followed: boolean
-    fullName: string
-    status: string
-    location: {
-        city: string
-        country: string
+    id:number
+    name:string
+    status:string
+    photos:{
+        small:string
+        large:string
     }
+    followed:boolean
 }
 
 type ActionsType = FollowActionType | UnfollowActionType | SetUsersActionType
