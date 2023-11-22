@@ -1,11 +1,10 @@
 import React from 'react';
 import {sendMessageActionCreator, updateNewMessageBodyActionCreator} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
-import {StoreContext} from "../../StoreContext";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
-import {DialogsPageType, PostType} from "../../redux/store";
+import {DialogsPageType} from "../../redux/store";
 
 // const DialogsContainer = () => {
 //
