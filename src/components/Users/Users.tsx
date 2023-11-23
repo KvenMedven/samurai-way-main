@@ -44,23 +44,16 @@ export class Users extends React.Component<PropsType> {
 
     constructor(props: PropsType) {
         super(props);
-        alert('new')
-        this.instance.get<ResponseType>('/users')
-            .then(res => {
-                this.props.setUsers(res.data.items)
-            })
 
     }
 
-    // getUsers = () => {
-    //     if (this.props.users.length === 0) {
-    //         this.instance.get<ResponseType>('/users')
-    //             .then(res => {
-    //                 this.props.setUsers(res.data.items)
-    //
-    //             })
-    //     }
-    // }
+        componentDidMount() {
+            this.instance.get<ResponseType>('/users')
+                .then(res => {
+                    this.props.setUsers(res.data.items)
+                })
+        }
+
 
     render() {
         return (
