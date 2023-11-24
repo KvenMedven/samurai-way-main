@@ -3,3 +3,16 @@
     width: 100px;
     border-radius: 50%;
 }
+.selectedPage{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.page{
+    margin: 1px;
+    cursor: pointer;
+}
+.page:hover{
+    font-weight:bold;
+    color: white;
+}

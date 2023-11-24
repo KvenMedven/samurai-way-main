@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 import {UserType} from "../../redux/users-reducer";
 import styles from "./users.module.css";
 import userPhoto from "../../assets/images/i.webp";
@@ -28,15 +28,22 @@ type ResponseType = {
     error: string
     totalCount: number
 }
-type PropsType = {
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    setUsers: (users: Array<UserType>) => void
-    users: Array<UserType>
-}
+// type PropsType = {
+//     follow: (userID: number) => void
+//     unfollow: (userID: number) => void
+//     setUsers: (users: Array<UserType>) => void
+//     setCurrentPage:(currentPage:number)=>void
+//
+//     users: Array<UserType>
+//     pageSize: number
+//     totalUsersCount: number
+//     currentPage:number
+// }
 
+type PropsType = MapStateToPropsUsersType & MapDispatchToPropsUsersType
 
 export class Users extends React.Component<PropsType> {
+
     instance = axios.create({
         withCredentials: true,
         baseURL: 'https://social-network.samuraijs.com/api/1.0'
@@ -47,19 +54,39 @@ export class Users extends React.Component<PropsType> {
 
     }
 
-        componentDidMount() {
-            this.instance.get<ResponseType>('/users')
-                .then(res => {
-                    this.props.setUsers(res.data.items)
-                })
-        }
+    componentDidMount() {
+        this.instance.get<ResponseType>(`/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.setUsers(res.data.items);
+                this.props.setTotalUsersCount(res.data.totalCount)
+            })
+    }
+    onPageChanged = (p:number)=>{
+        this.props.setCurrentPage(p);
+        this.instance.get<ResponseType>(`/users?page=${p}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.setUsers(res.data.items)
+            })
 
+    }
 
     render() {
-        return (
-            <div>
-                {/*<button onClick={this.getUsers}>GetUsers</button>*/}
+        let pagesCount =Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+        let pages = []
 
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+        return (<div>
+                {/*<button onClick={this.getUsers}>GetUsers</button>*/}
+                <div>
+                    {pages.map(p => {
+
+                         return   <span onClick={(e)=>this.onPageChanged(p)}
+                                        className={p===this.props.currentPage ? styles.selectedPage :styles.page}>{p}</span>
+                        }
+                    )}
+                </div>
                 {this.props.users.map((user) => {
                     return (
                         <div key={user.id}>
