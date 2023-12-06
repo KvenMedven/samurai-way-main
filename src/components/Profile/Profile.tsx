@@ -4,17 +4,14 @@ import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 type ProfilePropsType = {
-    store: any
+    profile:any
 }
 
 export const Profile = (props: ProfilePropsType) => {
+
     return (
         <div className={s.content}>
-            <ProfileInfo/>
-            {/*<MyPosts posts={props.profilePage.posts}*/}
-            {/*         newPostText={props.profilePage.newPostText}*/}
-            {/*         dispatch={props.dispatch}*/}
-            {/*/>*/}
+            <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
         </div>
     )

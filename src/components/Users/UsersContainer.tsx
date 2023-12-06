@@ -1,18 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
 import {AppRootStateType} from '../../redux/redux-store';
 import {
     follow,
     setCurrentPage,
     setTotalUsersCount,
-    setUsers, toggleIsFetching,
+    setUsers,
+    toggleIsFetching,
     unfollow,
     UserType
 } from '../../redux/users-reducer';
 import axios from 'axios';
 import {Users} from './Users';
-import preloader from './../../assets/images/preloader_transparent.svg'
 import {Preloader} from "../common/Preloader/Preloader";
 
 type ResponseType = {

@@ -7,6 +7,8 @@ import {Profile} from "./components/Profile/Profile";
 import {Route} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
+import {ProfileConnect} from "./components/Profile/ProfileContainer";
+
 
 type AppPropsType = {
     state: any
@@ -27,8 +29,7 @@ function App(props: AppPropsType) {
                 <Route path={'/dialogs'} render={() => <DialogsContainer
 
                 />}/>
-                <Route path={'/profile'} render={() => <Profile
-                    store={props.store}
+                <Route path={'/profile'} render={() => <ProfileConnect
                 />}/>
                 <Route path={'/users'} render={()=><UsersContainer />
                 } />
