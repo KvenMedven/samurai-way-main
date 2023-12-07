@@ -43,7 +43,7 @@ let initialState: UsersStateType = {
     pageSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: true
+    isFetching: false
 }
 
 export let usersReducer = (state: UsersStateType = initialState, action: ActionsType): UsersStateType => {

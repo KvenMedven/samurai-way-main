@@ -23,13 +23,10 @@ function App(props: AppPropsType) {
             <Header/>
             <Navbar/>
             <div className={"app-wrapper-content"}>
-                {/*<Route path={'/dialogs'} render={() => <Dialogs*/}
-                {/*    state={state} store={props.store}*/}
-                {/*/>}/>*/}
                 <Route path={'/dialogs'} render={() => <DialogsContainer
 
                 />}/>
-                <Route path={'/profile'} render={() => <ProfileConnect
+                <Route path={'/profile/:userId?'} render={() => <ProfileConnect
                 />}/>
                 <Route path={'/users'} render={()=><UsersContainer />
                 } />
