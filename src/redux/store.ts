@@ -58,7 +58,7 @@ export type ActionsTypes =
     | sendNewMessageActionType
 
 
-export const store: StoreType = {
+ const store: StoreType = {
     _state: {
         profilePage: {
             posts: [

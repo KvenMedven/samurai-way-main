@@ -8,6 +8,7 @@ import {Route} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import {ProfileConnect} from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 
 type AppPropsType = {
@@ -20,7 +21,7 @@ function App(props: AppPropsType) {
     const state = props.state
     return (
         <div className={'app-wrapper'}>
-            <Header/>
+            <HeaderContainer/>
             <Navbar/>
             <div className={"app-wrapper-content"}>
                 <Route path={'/dialogs'} render={() => <DialogsContainer

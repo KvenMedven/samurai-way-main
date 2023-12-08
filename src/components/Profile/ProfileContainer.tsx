@@ -1,7 +1,7 @@
 import React from 'react';
 import {Profile} from "./Profile";
 import axios from "axios";
-import {AppRootStateType} from "../../redux/redux-store";
+import {AppRootStateType, StoreType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {setUserProfileAC} from "../../redux/profile-reducer";
@@ -33,6 +33,7 @@ type ProfileType = {
 }
 export type MapStateToPropProfileType = {
     profile: ProfileType
+
 }
 
 export type MapDispatchToPropProfileType = {
@@ -47,10 +48,10 @@ class ProfileContainer extends React.Component<OwnPropsType> {
 
     componentDidMount() {
 
+
         // @ts-ignore
         let userId = this.props.match.params.userId
         if (!userId) {
-            debugger
             userId = 4;
         }
         this.instance.get(userId)
@@ -60,15 +61,13 @@ class ProfileContainer extends React.Component<OwnPropsType> {
     }
 
     render() {
-
         return (
-
             <Profile profile={this.props.profile}/>
         );
     }
-
-
 };
+
+
 
 let mapStateToProps = (state: AppRootStateType): MapStateToPropProfileType => {
 
