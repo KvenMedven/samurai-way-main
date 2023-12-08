@@ -33,6 +33,7 @@ type ProfileType = {
 }
 export type MapStateToPropProfileType = {
     profile: ProfileType
+    myId:number | null
 
 }
 
@@ -52,7 +53,8 @@ class ProfileContainer extends React.Component<OwnPropsType> {
         // @ts-ignore
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = 4;
+            debugger
+            userId = this.props.myId;
         }
         this.instance.get(userId)
             .then((res) => {
@@ -62,7 +64,9 @@ class ProfileContainer extends React.Component<OwnPropsType> {
 
     render() {
         return (
-            <Profile profile={this.props.profile}/>
+            <Profile profile={this.props.profile}
+                     myId={this.props.myId}
+            />
         );
     }
 };
@@ -72,7 +76,8 @@ class ProfileContainer extends React.Component<OwnPropsType> {
 let mapStateToProps = (state: AppRootStateType): MapStateToPropProfileType => {
 
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        myId:state.auth.id
     }
 }
 

@@ -3,8 +3,7 @@ import styles from "./users.module.css";
 import userPhoto from "../../assets/images/i.webp";
 import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
-
+import {usersAPI} from "../../api/api";
 type PropsType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
@@ -12,19 +11,19 @@ type PropsType = {
     setCurrentPage: (currentPage: number) => void
     setTotalUsersCount: (totalCount: number) => void
     onPageChanged: (p: number) => void
-    toggleIsFetching:(value:boolean)=> void
+    toggleIsFetching: (value: boolean) => void
 
     users: Array<UserType>
     pageSize: number
     totalUsersCount: number
     currentPage: number
-    isFetching:boolean
+    isFetching: boolean
 }
 
 type FollowResponseType = {
-    resultCode:number
-    messages:[]
-    data:{}
+    resultCode: number
+    messages: []
+    data: {}
 }
 
 export const Users = (props: PropsType) => {
@@ -35,12 +34,10 @@ export const Users = (props: PropsType) => {
         pages.push(i)
     }
 
-    const instance = axios.create({
-        baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-        withCredentials: true
-    })
-
-
+    // const instance = axios.create({
+    //     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    //     withCredentials: true
+    // })
 
 
     return (
@@ -48,8 +45,8 @@ export const Users = (props: PropsType) => {
         <div>
             <div>{props.isFetching.toString()}</div>
             <div>
-                <button onClick={()=>props.toggleIsFetching(true)}>toggleOn</button>
-                <button onClick={()=>props.toggleIsFetching(false)}>toggleOff</button>
+                <button onClick={() => props.toggleIsFetching(true)}>toggleOn</button>
+                <button onClick={() => props.toggleIsFetching(false)}>toggleOff</button>
             </div>
             <div>
                 {pages.map(p => {
@@ -60,33 +57,29 @@ export const Users = (props: PropsType) => {
                 )}
             </div>
             {props.users.map((user) => {
-
-                const follow = ()=>{
-
-                    instance.post<FollowResponseType>( '/follow/'+user.id)
-                        .then((res)=>{
-                            if (res.data.resultCode === 0){
+                const follow = () => {
+                    usersAPI.follow(user.id)
+                        .then((res) => {
+                            if (res.resultCode === 0) {
                                 props.follow(user.id)
                             }
                         })
                 }
-                const unfollow = ()=>{
-
-                    instance.delete<FollowResponseType>( '/follow/'+user.id)
-                        .then((res)=>{
-                            if (res.data.resultCode === 0){
+                const unfollow = () => {
+                   usersAPI.unfollow(user.id)
+                        .then((res) => {
+                            if (res.resultCode === 0) {
                                 props.unfollow(user.id)
                             }
                         })
                 }
 
 
-
                 return (
-                    <div key={user.id} >
+                    <div key={user.id}>
             <span>
                 <div>
-                    <NavLink to={'/profile/'+user.id}>
+                    <NavLink to={'/profile/' + user.id}>
                         <img className={styles.userPhoto} src={user.photos.large || userPhoto}/>
                     </NavLink>
 

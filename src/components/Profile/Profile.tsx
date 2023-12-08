@@ -5,6 +5,7 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 type ProfilePropsType = {
     profile:any
+    myId:number | null
 }
 
 export const Profile = (props: ProfilePropsType) => {
