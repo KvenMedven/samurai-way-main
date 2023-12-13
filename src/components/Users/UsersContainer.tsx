@@ -6,7 +6,7 @@ import {
     setCurrentPage,
     setTotalUsersCount,
     setUsers,
-    toggleIsFetching,
+    toggleIsFetching, toggleIsFollowingProgress,
     unfollow,
     UserType
 } from '../../redux/users-reducer';
@@ -39,6 +39,8 @@ export type MapStateToPropsUsersType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: Array<number | null>
+
 }
 
 export type MapDispatchToPropsUsersType = {
@@ -48,6 +50,8 @@ export type MapDispatchToPropsUsersType = {
     setCurrentPage: (currentPage: number) => void
     setTotalUsersCount: (totalCount: number) => void
     toggleIsFetching: (isFetching: boolean) => void
+    toggleIsFollowingProgress: (id: number, isFetching: boolean) => void
+
 }
 
 
@@ -103,6 +107,9 @@ class UsersContainer extends React.Component<UsersAPIPropsType> {
                        currentPage={this.props.currentPage}
                        isFetching={this.props.isFetching}
                        toggleIsFetching={this.props.toggleIsFetching}
+                       followingInProgress={this.props.followingInProgress}
+                       toggleIsFollowingProgress={this.props.toggleIsFollowingProgress}
+
 
                 />
             </>
@@ -114,12 +121,14 @@ class UsersContainer extends React.Component<UsersAPIPropsType> {
 
 
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsUsersType => {
+
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 // const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsUsersType => {
@@ -152,6 +161,7 @@ export default connect(mapStateToProps, {
         setUsers,
         setCurrentPage,
         setTotalUsersCount,
-        toggleIsFetching
+        toggleIsFetching,
+        toggleIsFollowingProgress
     }
 )(UsersContainer)
