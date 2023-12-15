@@ -1,3 +1,6 @@
+import {GetUserResponseType, usersAPI} from "../api/api";
+import {AppThunkType} from "./redux-store";
+
 const ADD_POST = 'ADD_POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
@@ -10,7 +13,7 @@ type PostType = {
 type InitialStateType = {
     posts: Array<PostType>
     newPostText: string
-    profile:any
+    profile:GetUserResponseType | null
 }
 
 
@@ -25,7 +28,7 @@ let initialState: InitialStateType = {
 
 }
 
-export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const profileReducer = (state: InitialStateType = initialState, action: ProfileReducerActionsType): InitialStateType => {
     switch (action.type) {
         case ADD_POST: {
             return {
@@ -74,7 +77,16 @@ export const setUserProfileAC = (profile: any) => {
         profile
     } as const
 }
-type ActionsType = AddPostActionType | UpdateNewPostTextActionType | setUserProfileActionType
+
+export const getUserTC = (userID:number|string):AppThunkType=>
+    (dispatch)=>{
+        usersAPI.getUser(userID)
+            .then(profile=>{
+               dispatch(setUserProfileAC(profile))
+            })
+    }
+
+export type ProfileReducerActionsType = AddPostActionType | UpdateNewPostTextActionType | setUserProfileActionType
 export type AddPostActionType = ReturnType<typeof addPostActionCreator>
 export type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextActionCreator>
 export type setUserProfileActionType = ReturnType<typeof setUserProfileAC>

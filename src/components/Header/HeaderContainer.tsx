@@ -1,11 +1,8 @@
 import React from 'react';
 import {Header} from "./Header";
-import axios from "axios";
 import {connect} from "react-redux";
-import {AppRootStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
-import {setUserDataAC} from "../../redux/auth-reducer";
-import {usersAPI} from "../../api/api";
+import {AppRootStateType, AppThunkDispatchType} from "../../redux/redux-store";
+import {authMeTC} from "../../redux/auth-reducer";
 
 
 export type HeaderContainerType = mapStateToPropsType & mapDispatchToPropsType
@@ -13,13 +10,7 @@ export type HeaderContainerType = mapStateToPropsType & mapDispatchToPropsType
 
 class HeaderContainer extends React.Component<HeaderContainerType> {
     componentDidMount() {
-        usersAPI.authMe().then((userData) => {
-                if (userData.resultCode === 0) {
-                    let {id, email, login} = userData.data
-                    this.props.setAuthUserData(id, email, login)
-                }
-
-            })
+        this.props.authMe()
     }
     render() {
         return (
@@ -29,7 +20,7 @@ class HeaderContainer extends React.Component<HeaderContainerType> {
             />
         );
     }
-};
+}
 
 const mapStateToProps = (state: AppRootStateType) => {
     return {
@@ -37,10 +28,10 @@ const mapStateToProps = (state: AppRootStateType) => {
         login:state.auth.login
     }
 }
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: AppThunkDispatchType) => {
     return {
-        setAuthUserData: (userId: number, email: string, login: string) => {
-            dispatch(setUserDataAC(userId, email, login))
+        authMe: () => {
+            dispatch(authMeTC())
         }
     }
 }

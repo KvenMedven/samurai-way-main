@@ -1,37 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {AppRootStateType} from '../../redux/redux-store';
+import {AppRootStateType, AppThunkDispatchType} from '../../redux/redux-store';
 import {
-    follow,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUsers,
-    toggleIsFetching, toggleIsFollowingProgress,
-    unfollow,
+    acceptFollowAC,
+    acceptUnfollowAC,
+    followTC,
+    getUsersTC,
+    setCurrentPageAC,
+    unFollowTC,
     UserType
 } from '../../redux/users-reducer';
-import axios from 'axios';
 import {Users} from './Users';
 import {Preloader} from "../common/Preloader/Preloader";
-import {usersAPI} from "../../api/api";
 
 
-type ResponseType = {
-    items: Array<UserServerType>
-    error: string
-    totalCount: number
-}
-type UserServerType = {
-    id: number
-    name: string
-    status: string
-    photos: {
-        small: string
-        large: string
-    }
-    followed: boolean
-}
-type UsersAPIPropsType = MapStateToPropsUsersType & MapDispatchToPropsUsersType
+type UsersContainerPropsType = MapStateToPropsUsersType & MapDispatchToPropsUsersType
 
 export type MapStateToPropsUsersType = {
     users: Array<UserType>
@@ -44,47 +27,26 @@ export type MapStateToPropsUsersType = {
 }
 
 export type MapDispatchToPropsUsersType = {
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    setUsers: (users: Array<UserType>) => void
+    acceptFollow: (userID: number) => void
+    acceptUnfollow: (userID: number) => void
+    follow:(userID:number)=>void
+    unFollow:(userID:number)=>void
     setCurrentPage: (currentPage: number) => void
-    setTotalUsersCount: (totalCount: number) => void
-    toggleIsFetching: (isFetching: boolean) => void
-    toggleIsFollowingProgress: (id: number, isFetching: boolean) => void
+    getUsers: (currentPage: number, pageSize: number) => void
+
 
 }
 
 
-class UsersContainer extends React.Component<UsersAPIPropsType> {
+class UsersContainer extends React.Component<UsersContainerPropsType> {
 
-    instance = axios.create({
-        withCredentials: true,
-        baseURL: 'https://social-network.samuraijs.com/api/1.0'
-    })
 
     componentDidMount() {
-        this.props.toggleIsFetching(true)
-        // this.instance.get<ResponseType>(`/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then(data => {
-                this.props.toggleIsFetching(false)
-                this.props.setUsers(data.items);
-                this.props.setTotalUsersCount(data.totalCount)
-            })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
-
     onPageChanged = (p: number) => {
-        this.props.toggleIsFetching(true)
         this.props.setCurrentPage(p);
-        // this.instance.get<ResponseType>(`/users?page=${p}&count=${this.props.pageSize}`)
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then(data => {
-                this.props.setUsers(data.items)
-                this.props.toggleIsFetching(false)
-            })
-            .catch((error) => {
-                alert(error)
-            })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
 
     }
 
@@ -95,20 +57,18 @@ class UsersContainer extends React.Component<UsersAPIPropsType> {
                 {this.props.isFetching ?
                     <Preloader/>
                     : null}
-                <Users follow={this.props.follow}
-                       unfollow={this.props.unfollow}
-                       setUsers={this.props.setUsers}
+                <Users acceptFollow={this.props.acceptFollow}
+                       acceptUnfollow={this.props.acceptUnfollow}
                        setCurrentPage={this.props.setCurrentPage}
-                       setTotalUsersCount={this.props.setTotalUsersCount}
                        onPageChanged={this.onPageChanged}
                        users={this.props.users}
                        pageSize={this.props.pageSize}
                        totalUsersCount={this.props.totalUsersCount}
                        currentPage={this.props.currentPage}
                        isFetching={this.props.isFetching}
-                       toggleIsFetching={this.props.toggleIsFetching}
                        followingInProgress={this.props.followingInProgress}
-                       toggleIsFollowingProgress={this.props.toggleIsFollowingProgress}
+                       follow={this.props.follow}
+                       unFollow={this.props.unFollow}
 
 
                 />
@@ -117,7 +77,7 @@ class UsersContainer extends React.Component<UsersAPIPropsType> {
         );
     }
 
-};
+}
 
 
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsUsersType => {
@@ -131,37 +91,28 @@ const mapStateToProps = (state: AppRootStateType): MapStateToPropsUsersType => {
         followingInProgress: state.usersPage.followingInProgress
     }
 }
-// const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsUsersType => {
-//     return {
-//         follow: (userID: number) => {
-//             dispatch(followAC(userID))
-//         },
-//         unfollow: (userID: number) => {
-//             dispatch(unfollowAC(userID))
-//         },
-//         setUsers: (users: Array<UserType>) => {
-//             dispatch(setUsersAC(users))
-//         },
-//         setCurrentPage: (currentPage: number) => {
-//             dispatch(setCurrentPageAC(currentPage))
-//         },
-//         setTotalUsersCount: (totalCount: number) => {
-//             dispatch(setTotalUsersCountAC(totalCount))
-//         },
-//         toggleIsFetching:(isFetching:boolean)=>{
-//             dispatch(toggleIsFetchingAC(isFetching))
-//         }
-//
-//     }
-// }
+const mapDispatchToProps = (dispatch: AppThunkDispatchType): MapDispatchToPropsUsersType => {
+    return {
+        acceptFollow: (userID: number) => {
+            dispatch(acceptFollowAC(userID))
+        },
+        acceptUnfollow: (userID: number) => {
+            dispatch(acceptUnfollowAC(userID))
+        },
+        setCurrentPage: (currentPage: number) => {
+            dispatch(setCurrentPageAC(currentPage))
+        },
+        getUsers: (currentPage: number, pageSize: number) => {
+            dispatch(getUsersTC(currentPage, pageSize))
+        },
+        follow:(userID:number)=>{
+            dispatch(followTC(userID))
+        },
+        unFollow:(userID:number)=>{
+            dispatch(unFollowTC(userID))
+        }
 
-export default connect(mapStateToProps, {
-        follow,
-        unfollow,
-        setUsers,
-        setCurrentPage,
-        setTotalUsersCount,
-        toggleIsFetching,
-        toggleIsFollowingProgress
     }
-)(UsersContainer)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)

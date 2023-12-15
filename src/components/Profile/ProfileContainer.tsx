@@ -1,65 +1,38 @@
 import React from 'react';
 import {Profile} from "./Profile";
-import axios from "axios";
-import {AppRootStateType, StoreType} from "../../redux/redux-store";
+import {AppRootStateType, AppThunkDispatchType} from "../../redux/redux-store";
 import {connect} from "react-redux";
-import {Dispatch} from "redux";
-import {setUserProfileAC} from "../../redux/profile-reducer";
+import {getUserTC} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {GetUserResponseType} from "../../api/api";
 
 type OwnPropsType = MapStateToPropProfileType & MapDispatchToPropProfileType
 
-type ProfileType = {
-    aboutMe: string | null
-    contacts: {
-        facebook: string | null
-        website: string | null
-        vk: string | null
-        twitter: string | null
-        instagram: string | null
-        youtube: string | null
-        github: string | null
-        mainLink: string | null
-    }
-    lookingForAJob: boolean
-    lookingForAJobDescription: string | null
-    fullName: string | null
-    userId: string
-    photos: {
-        small: string | null
-        large: string | null
-    }
-
-}
 export type MapStateToPropProfileType = {
-    profile: ProfileType
+    profile: GetUserResponseType | null
     myId:number | null
 
 }
 
 export type MapDispatchToPropProfileType = {
-    setUserProfile: (profile: ProfileType) => void
+    getUserProfile: (id: string | number) => void
 }
 
-class ProfileContainer extends React.Component<OwnPropsType> {
-    instance = axios.create({
-        withCredentials: true,
-        baseURL: 'https://social-network.samuraijs.com/api/1.0/profile/'
-    })
+class ProfileContainer extends React.Component<CommonPropsType> {
 
     componentDidMount() {
-
-
-        // @ts-ignore
         let userId = this.props.match.params.userId
         if (!userId) {
-            debugger
-            userId = this.props.myId;
+            if (this.props.myId){
+                userId = this.props.myId.toString()
+            }
         }
-        this.instance.get(userId)
-            .then((res) => {
-                this.props.setUserProfile(res.data)
-            })
+        this.props.getUserProfile(userId)
+        // usersAPI.getUser(userId)
+        //     .then(profile=>{
+        //         this.props.setUserProfile(profile)
+        //     })
+
     }
 
     render() {
@@ -69,7 +42,7 @@ class ProfileContainer extends React.Component<OwnPropsType> {
             />
         );
     }
-};
+}
 
 
 
@@ -82,10 +55,10 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropProfileType => {
 }
 
 
-let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropProfileType => {
+let mapDispatchToProps = (dispatch: AppThunkDispatchType): MapDispatchToPropProfileType => {
     return {
-        setUserProfile: (profile: ProfileType) => {
-            dispatch(setUserProfileAC(profile))
+        getUserProfile: (id: string | number) => {
+            dispatch(getUserTC(id))
         }
     }
 }

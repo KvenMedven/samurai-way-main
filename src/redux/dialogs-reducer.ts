@@ -39,7 +39,7 @@ let initialState: InitialStateType = {
 
 }
 
-export const dialogsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const dialogsReducer = (state: InitialStateType = initialState, action: DialogsReducerActionsType): InitialStateType => {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY: {
             return {
@@ -76,7 +76,7 @@ export const updateNewMessageBodyActionCreator = (body: string) => {
     } as const
 }
 
-type ActionsType = updateNewMessageBodyActionType | sendNewMessageActionType
+export type DialogsReducerActionsType = updateNewMessageBodyActionType | sendNewMessageActionType
 
 export type updateNewMessageBodyActionType = ReturnType<typeof updateNewMessageBodyActionCreator>
 export type sendNewMessageActionType = ReturnType<typeof sendMessageActionCreator>

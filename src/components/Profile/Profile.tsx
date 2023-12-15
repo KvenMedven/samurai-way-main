@@ -12,6 +12,7 @@ export const Profile = (props: ProfilePropsType) => {
 
     return (
         <div className={s.content}>
+            THIS IS PROFILE
             <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
         </div>
