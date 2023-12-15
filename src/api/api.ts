@@ -65,16 +65,20 @@ export const usersAPI = {
                 return res.data
             })
     },
-    authMe() {
-        return instance.get<ResponseType<AuthMeResponseUserDataType>>('/auth/me')
-            .then(res => res.data)
-    },
+
     follow(id: number) {
         return instance.post<ResponseType>('/follow/' + id)
             .then(res => res.data)
     },
     unfollow(id: number) {
         return instance.delete<ResponseType>('/follow/' + id)
+            .then(res => res.data)
+    }
+}
+
+export  const authAPI = {
+    me() {
+        return instance.get<ResponseType<AuthMeResponseUserDataType>>('/auth/me')
             .then(res => res.data)
     }
 }

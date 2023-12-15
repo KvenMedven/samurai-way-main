@@ -2,7 +2,7 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {AppRootStateType, AppThunkDispatchType} from "../../redux/redux-store";
 import {connect} from "react-redux";
-import {getUserTC} from "../../redux/profile-reducer";
+import {getUserProfileTC} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {GetUserResponseType} from "../../api/api";
 
@@ -58,7 +58,7 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropProfileType => {
 let mapDispatchToProps = (dispatch: AppThunkDispatchType): MapDispatchToPropProfileType => {
     return {
         getUserProfile: (id: string | number) => {
-            dispatch(getUserTC(id))
+            dispatch(getUserProfileTC(id))
         }
     }
 }

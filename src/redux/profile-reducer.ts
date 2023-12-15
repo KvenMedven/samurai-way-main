@@ -71,14 +71,14 @@ export const updateNewPostTextActionCreator = (newText: string) => {
         newText
     } as const
 }
-export const setUserProfileAC = (profile: any) => {
+const setUserProfileAC = (profile: any) => {
     return {
         type: SET_USER_PROFILE,
         profile
     } as const
 }
 
-export const getUserTC = (userID:number|string):AppThunkType=>
+export const getUserProfileTC = (userID:number|string):AppThunkType=>
     (dispatch)=>{
         usersAPI.getUser(userID)
             .then(profile=>{

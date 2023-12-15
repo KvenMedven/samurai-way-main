@@ -2,7 +2,7 @@ import React from 'react';
 import {Header} from "./Header";
 import {connect} from "react-redux";
 import {AppRootStateType, AppThunkDispatchType} from "../../redux/redux-store";
-import {authMeTC} from "../../redux/auth-reducer";
+import {getAuthUserDataTC} from "../../redux/auth-reducer";
 
 
 export type HeaderContainerType = mapStateToPropsType & mapDispatchToPropsType
@@ -31,7 +31,7 @@ const mapStateToProps = (state: AppRootStateType) => {
 const mapDispatchToProps = (dispatch: AppThunkDispatchType) => {
     return {
         authMe: () => {
-            dispatch(authMeTC())
+            dispatch(getAuthUserDataTC())
         }
     }
 }
