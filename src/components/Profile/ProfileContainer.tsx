@@ -3,7 +3,7 @@ import {Profile} from "./Profile";
 import {AppRootStateType, AppThunkDispatchType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {getUserProfileTC} from "../../redux/profile-reducer";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import {GetUserResponseType} from "../../api/api";
 
 type OwnPropsType = MapStateToPropProfileType & MapDispatchToPropProfileType
@@ -11,6 +11,7 @@ type OwnPropsType = MapStateToPropProfileType & MapDispatchToPropProfileType
 export type MapStateToPropProfileType = {
     profile: GetUserResponseType | null
     myId:number | null
+    isAuth:boolean
 
 }
 
@@ -36,9 +37,12 @@ class ProfileContainer extends React.Component<CommonPropsType> {
     }
 
     render() {
+        if (!this.props.isAuth){
+            return <Redirect to={'/login'}/>
+        }
         return (
             <Profile profile={this.props.profile}
-                     myId={this.props.myId}
+
             />
         );
     }
@@ -50,7 +54,8 @@ let mapStateToProps = (state: AppRootStateType): MapStateToPropProfileType => {
 
     return {
         profile: state.profilePage.profile,
-        myId:state.auth.id
+        myId:state.auth.id,
+        isAuth:state.auth.isAuth
     }
 }
 

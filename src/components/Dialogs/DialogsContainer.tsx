@@ -6,30 +6,9 @@ import {AppRootStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 import {DialogsPageType} from "../../redux/store";
 
-// const DialogsContainer = () => {
-//
-//     return (
-//         <StoreContext.Consumer>
-//             {(store)=>{
-//                 debugger
-//                 let state = store.getState().dialogsPage
-//                 let onSendMessageClick = () => {
-//                     store.dispatch(sendMessageActionCreator())
-//                 }
-//                 let onNewMessageChange = (body:string) => {
-//                     store.dispatch(updateNewMessageBodyActionCreator(body))
-//                 }
-//                 return (<Dialogs dialogsPage={state}  sendMessage={onSendMessageClick}
-//                                updateNewMessageBody={onNewMessageChange}
-//                 />)
-//             }
-//             }
-//         </StoreContext.Consumer>
-//     );
-// };
-
 type MapStatePropsType = {
     dialogsPage: DialogsPageType
+    isAuth:boolean
 }
 type MapDispatchPropsType = {
     sendMessage:()=>void
@@ -39,7 +18,8 @@ type MapDispatchPropsType = {
 
 let mapStateToProps = (state:AppRootStateType):MapStatePropsType =>{
     return {
-        dialogsPage: state.dialogsPage
+        dialogsPage: state.dialogsPage,
+        isAuth:state.auth.isAuth
     }
 }
 let mapDispatchToProps = (dispatch:Dispatch):MapDispatchPropsType =>{
