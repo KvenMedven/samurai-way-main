@@ -83,7 +83,6 @@ type CommonPropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 // export default withAuthRedirectComponent(withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileContainer)))
 
 export default compose<React.ComponentType>(
-    withAuthRedirectComponent,
     withRouter,
     connect(mapStateToProps, mapDispatchToProps),
     )(ProfileContainer)
