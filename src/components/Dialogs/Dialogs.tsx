@@ -16,7 +16,6 @@ type DialogsPropsType = {
     dialogsPage: DialogsPageType
     sendMessage:()=>void
     updateNewMessageBody:(body:string)=>void
-    isAuth:boolean
 }
 
 
@@ -33,9 +32,6 @@ export const Dialogs = (props: DialogsPropsType) => {
         let body = e.currentTarget.value
       props.updateNewMessageBody(body)
     }
-     if (!props.isAuth)   {
-         return <Redirect to={'/login'}/>
-     }
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>

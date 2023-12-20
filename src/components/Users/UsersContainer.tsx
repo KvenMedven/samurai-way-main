@@ -12,6 +12,7 @@ import {
 } from '../../redux/users-reducer';
 import {Users} from './Users';
 import {Preloader} from "../common/Preloader/Preloader";
+import {withAuthRedirectComponent} from "../../hoc/WithAuthRedirectComponent";
 
 
 type UsersContainerPropsType = MapStateToPropsUsersType & MapDispatchToPropsUsersType
@@ -115,4 +116,4 @@ const mapDispatchToProps = (dispatch: AppThunkDispatchType): MapDispatchToPropsU
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export default withAuthRedirectComponent(connect(mapStateToProps, mapDispatchToProps)(UsersContainer))

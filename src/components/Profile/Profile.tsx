@@ -8,10 +8,9 @@ type ProfilePropsType = {
 }
 
 export const Profile = (props: ProfilePropsType) => {
-
+debugger
     return (
         <div className={s.content}>
-            THIS IS PROFILE
             <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
         </div>
