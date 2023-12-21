@@ -82,3 +82,10 @@ export  const authAPI = {
             .then(res => res.data)
     }
 }
+
+export const statusAPI = {
+    getStatus(userID:number) {
+        return instance.get<string|null>('/profile/status/'+userID)
+
+    }
+}

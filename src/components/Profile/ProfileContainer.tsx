@@ -41,7 +41,6 @@ class ProfileContainer extends React.Component<CommonPropsType> {
         // if (!this.props.isAuth) {
         //     return <Redirect to={'/login'}/>
         // }
-        debugger
         return (
             <Profile {...this.props} profile={this.props.profile}
 

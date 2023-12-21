@@ -1,9 +1,10 @@
-import {GetUserResponseType, usersAPI} from "../api/api";
+import {GetUserResponseType, statusAPI, usersAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
 const ADD_POST = 'ADD_POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
+const SET_STATUS = 'SET_STATUS'
 
 type PostType = {
     id: number
@@ -13,7 +14,8 @@ type PostType = {
 type InitialStateType = {
     posts: Array<PostType>
     newPostText: string
-    profile:GetUserResponseType | null
+    profile: GetUserResponseType | null
+    status: string
 }
 
 
@@ -24,7 +26,8 @@ let initialState: InitialStateType = {
         {id: 3, message: 'How is your it-kamasutra', likesCount: 11},
     ],
     newPostText: "",
-    profile:null
+    profile: null,
+    status: ''
 
 }
 
@@ -44,10 +47,16 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
                 newPostText: action.newText
             }
         }
-        case SET_USER_PROFILE:{
+        case SET_USER_PROFILE: {
             return {
                 ...state,
-                profile:action.profile
+                profile: action.profile
+            }
+        }
+        case SET_STATUS: {
+            return {
+                ...state,
+                status:action.status
             }
         }
 
@@ -78,15 +87,39 @@ const setUserProfileAC = (profile: any) => {
     } as const
 }
 
-export const getUserProfileTC = (userID:number|string):AppThunkType=>
-    (dispatch)=>{
+export const setStatusAC = (status: string) => {
+    return {
+        type: SET_STATUS,
+        status
+    } as const
+}
+
+export const getUserProfileTC = (userID: number | string): AppThunkType =>
+    (dispatch) => {
         usersAPI.getUser(userID)
-            .then(profile=>{
-               dispatch(setUserProfileAC(profile))
+            .then(profile => {
+                dispatch(setUserProfileAC(profile))
             })
     }
 
-export type ProfileReducerActionsType = AddPostActionType | UpdateNewPostTextActionType | setUserProfileActionType
+export const getStatusTC = (userID: number): AppThunkType =>
+    (dispatch) => {
+        statusAPI.getStatus(userID)
+            .then(res => {
+                if (res.data){
+                    dispatch(setStatusAC(res.data))
+                } else {
+                    dispatch(setStatusAC(''))
+                }
+
+            })
+    }
+
+export type ProfileReducerActionsType = AddPostActionType
+    | UpdateNewPostTextActionType
+    | setUserProfileActionType
+    |setStatusActionType
 export type AddPostActionType = ReturnType<typeof addPostActionCreator>
 export type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextActionCreator>
 export type setUserProfileActionType = ReturnType<typeof setUserProfileAC>
+export type setStatusActionType = ReturnType<typeof setStatusAC>
