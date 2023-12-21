@@ -1,4 +1,4 @@
-import {GetUserResponseType, statusAPI, usersAPI} from "../api/api";
+import {GetUserResponseType, profileAPI, usersAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
 const ADD_POST = 'ADD_POST'
@@ -96,7 +96,7 @@ export const setStatusAC = (status: string) => {
 
 export const getUserProfileTC = (userID: number | string): AppThunkType =>
     (dispatch) => {
-        usersAPI.getUser(userID)
+        usersAPI.getProfile(userID)
             .then(profile => {
                 dispatch(setUserProfileAC(profile))
             })
@@ -104,16 +104,25 @@ export const getUserProfileTC = (userID: number | string): AppThunkType =>
 
 export const getStatusTC = (userID: number): AppThunkType =>
     (dispatch) => {
-        statusAPI.getStatus(userID)
+        profileAPI.getStatus(userID)
             .then(res => {
                 if (res.data){
                     dispatch(setStatusAC(res.data))
                 } else {
                     dispatch(setStatusAC(''))
                 }
-
             })
     }
+
+    export const updateStatusTC = (status:string):AppThunkType=>
+        (dispatch)=>{
+            profileAPI.updateStatus(status)
+                .then(res=>{
+                    if (res.resultCode===0){
+                        dispatch(setStatusAC(status))
+                    }
+                })
+        }
 
 export type ProfileReducerActionsType = AddPostActionType
     | UpdateNewPostTextActionType

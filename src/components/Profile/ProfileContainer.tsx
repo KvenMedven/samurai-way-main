@@ -2,7 +2,7 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {AppRootStateType, AppThunkDispatchType} from "../../redux/redux-store";
 import {connect} from "react-redux";
-import {getUserProfileTC} from "../../redux/profile-reducer";
+import {getStatusTC, getUserProfileTC, updateStatusTC} from "../../redux/profile-reducer";
 import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import {GetUserResponseType} from "../../api/api";
 import {withAuthRedirectComponent} from "../../hoc/WithAuthRedirectComponent";
@@ -10,26 +10,30 @@ import {compose} from "redux";
 
 type OwnPropsType = MapStateToPropProfileType & MapDispatchToPropProfileType
 
-export type MapStateToPropProfileType = {
-    profile: GetUserResponseType | null
-    myId: number | null
 
-}
-
-export type MapDispatchToPropProfileType = {
-    getUserProfile: (id: string | number) => void
-}
 
 class ProfileContainer extends React.Component<CommonPropsType> {
 
     componentDidMount() {
-        let userId = this.props.match.params.userId
-        if (!userId) {
+        console.log(this.props.myId)
+        let userId
+        if (this.props.match.params.userId){
+            userId = +this.props.match.params.userId
+
+
+        } else {
             if (this.props.myId) {
-                userId = this.props.myId.toString()
+                userId = this.props.myId
             }
         }
-        this.props.getUserProfile(userId)
+
+        if (userId){
+            this.props.getUserProfile(userId)
+            this.props.getStatus(userId)
+        }
+
+
+
         // usersAPI.getUser(userId)
         //     .then(profile=>{
         //         this.props.setUserProfile(profile)
@@ -42,27 +46,42 @@ class ProfileContainer extends React.Component<CommonPropsType> {
         //     return <Redirect to={'/login'}/>
         // }
         return (
-            <Profile {...this.props} profile={this.props.profile}
-
-            />
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     status={this.props.status}
+                     updateStatus={this.props.updateStatus}/>
         );
     }
 }
 
 
+export type MapStateToPropProfileType = {
+    profile: GetUserResponseType | null
+    myId: number | null
+    status:string
+}
+export type MapDispatchToPropProfileType = {
+    getUserProfile: (id:  number) => void
+    getStatus:(id:number)=>void
+    updateStatus:(status:string)=>void
+}
 let mapStateToProps = (state: AppRootStateType): MapStateToPropProfileType => {
-
     return {
         profile: state.profilePage.profile,
         myId: state.auth.id,
+        status:state.profilePage.status
     }
 }
-
-
 let mapDispatchToProps = (dispatch: AppThunkDispatchType): MapDispatchToPropProfileType => {
     return {
-        getUserProfile: (id: string | number) => {
+        getUserProfile: (id:  number) => {
             dispatch(getUserProfileTC(id))
+        },
+        getStatus:(id:number)=>{
+            dispatch(getStatusTC(id))
+        },
+        updateStatus:(status:string)=>{
+            dispatch(updateStatusTC(status))
         }
     }
 }

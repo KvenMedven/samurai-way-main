@@ -1,48 +1,51 @@
-import React from 'react';
-import {statusAPI} from "../../../api/api";
+import React, {ChangeEvent, createRef, useRef} from 'react';
 import {connect} from "react-redux";
 import {AppRootStateType, AppThunkDispatchType} from "../../../redux/redux-store";
 import {getStatusTC} from "../../../redux/profile-reducer";
 
 
-
 type PropsType = {
-    id:number | null
+    status: string
+    updateStatus: (status: string) => void
 
 }
 
- class ProfileStatus extends React.Component<PropsType & mapDispatchToPropsType & mapStateToPropsType > {
+class ProfileStatus extends React.Component<PropsType> {
     componentDidMount() {
-        if(this.props.id)  this.props.setStatus(this.props.id)
+        // if(this.props.id)  this.props.setStatus(this.props.id)
 
 
     }
 
     state = {
         editMode: false,
-        value: '1'
+        status: this.props.status
     }
-    activateMode() {
-        this.setState({ editMode: true})
+    activateMode = () => {
+        this.setState({editMode: true})
     }
     onBlur = () => {
-        this.setState({ editMode: false})
+        this.setState({editMode: false})
+        this.props.updateStatus(this.state.status.trim())
+    }
+    onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
+        this.setState({status:e.currentTarget.value})
     }
 
     render() {
-        console.log(this.props.status)
         return (
 
             <div>
                 {this.state.editMode
                     ? <input
-                        onBlur={this.onBlur.bind(this)}
-                        value={this.state.value}
+
+                        onBlur={this.onBlur}
+                        value={this.state.status}
                         autoFocus
-                        onChange={(event) => this.setState({value: event.currentTarget.value})}
+                        onChange={this.onStatusChange}
                     />
                     :
-                    <span onDoubleClick={this.activateMode.bind(this)}>{this.props.status}</span>}
+                    <span onDoubleClick={this.activateMode}>{this.props.status || '----'}</span>}
             </div>
         )
     }
@@ -50,23 +53,5 @@ type PropsType = {
 
 };
 
-const mapStateToProps = (state:AppRootStateType)=>{
-    return{
-        status:state.profilePage.status
-    }
-}
 
-
-const mapDispatchToProps = (dispatch:AppThunkDispatchType)=>{
-    return{
-        setStatus:(id:number) =>{
-            dispatch(getStatusTC(id))
-        }
-    }
-}
-
-type mapDispatchToPropsType = ReturnType<typeof mapDispatchToProps>
-type mapStateToPropsType = ReturnType<typeof mapStateToProps>
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(ProfileStatus)
+export default ProfileStatus

@@ -59,11 +59,9 @@ export const usersAPI = {
                 return res.data
             })
     },
-    getUser(userID: string | number) {
-        return instance.get<GetUserResponseType>('/profile/' + userID)
-            .then(res => {
-                return res.data
-            })
+    getProfile(userID: string | number) {
+        console.warn('Obsolete method. Please profileAPI object')
+        return profileAPI.getProfile(userID)
     },
 
     follow(id: number) {
@@ -76,16 +74,26 @@ export const usersAPI = {
     }
 }
 
+export const profileAPI = {
+    getProfile(userID: string | number) {
+        return instance.get<GetUserResponseType>('/profile/' + userID)
+            .then(res => {
+                return res.data
+            })
+    },
+    getStatus(userID:number) {
+        return instance.get<string|null>('/profile/status/'+userID)
+
+    },
+    updateStatus(status:string){
+        return instance.put<ResponseType>('/profile/status/',{status})
+            .then(res=>res.data)
+    }
+}
+
 export  const authAPI = {
     me() {
         return instance.get<ResponseType<AuthMeResponseUserDataType>>('/auth/me')
             .then(res => res.data)
-    }
-}
-
-export const statusAPI = {
-    getStatus(userID:number) {
-        return instance.get<string|null>('/profile/status/'+userID)
-
     }
 }
